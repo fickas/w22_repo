@@ -72,3 +72,21 @@ def knn_accuracy(training_table, testing_table, k):
 
   return correct/n
 
+def euclidean_distance(vect1:list ,vect2:list) -> float:
+  assert isinstance(vect1, list), f'vect1 is not a list but a {type(vect1)}'
+  assert isinstance(vect2, list), f'vect2 is not a list but a {type(vect2)}'
+  assert len(vect1) == len(vect2), f"Mismatching length for euclidean vectors: {len(vect1)} and {len(vect2)}"
+  assert all([not isinstance(x,str) for x in vect1]), f'vect1 contains one or more string values'
+  assert all([not isinstance(x,str) for x in vect2]), f'vect2 contains one or more string values'
+  
+  '''
+  sum = 0
+  for i in range(len(vect1)):
+      sum += (vect1[i] - vect2[i])**2
+      
+  #could put assert here on result   
+  return sum**.5  # I claim that this square root is not needed in K-means - see why?
+  '''
+  a = np.array(vect1, dtype='int64')
+  b = np.array(vect2, dtype='int64')
+  return norm(a-b)
