@@ -14,19 +14,21 @@ def hello():
 
 ###Week 4
 
-def knn(table, target_list):
+def knn(table, target_list, differencer='euclidean'):
 
   distance_record = []
   n = len(table)
 
-  for i in range(n):
-    crowd_row = table.loc[i].to_list()
-    crowd_numbers = crowd_row[:-1]
-    choice = crowd_row[-1]
-    d = euclidean_distance(target_list, crowd_numbers)
-    distance_record += [[d,choice]]
+  if differencer=='euclidean'
+    for i in range(n):
+      crowd_row = table.loc[i].to_list()
+      crowd_numbers = crowd_row[:-1]
+      choice = crowd_row[-1]
+      d = euclidean_distance(target_list, crowd_numbers)
+      distance_record += [[d,choice]]
 
-  sorted_record = sorted(distance_record)
+    sorted_record = sorted(distance_record)
+    
   return sorted_record
 
 def get_knn_winner(expert_list):
