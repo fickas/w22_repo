@@ -14,9 +14,6 @@ def hello():
 
 ###Week 4
 
-def check():
-  return euclidean_distance([1,2],[3,4])
-
 def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
   assert isinstance(table, pd.core.frame.DataFrame), f'table is not a dataframe but instead a {type(table)}'
   assert isinstance(target_list, list), f'target_list is not a list but a {type(target_list)}'
