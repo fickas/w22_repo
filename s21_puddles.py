@@ -27,7 +27,16 @@ def knn(table, target_list, differencer='euclidean'):
       d = euclidean_distance(target_list, crowd_numbers)
       distance_record += [[d,choice]]
 
-    sorted_record = sorted(distance_record)
+    sorted_record = sorted(distance_record, reverse=False)  #ascending
+    
+  if differencer=='reverse_cosine'
+      for i in range(n):
+        crowd_row = table.loc[i].to_list()
+        crowd_numbers = crowd_row[:-1]
+        choice = crowd_row[-1]
+        d = 1.0 - cosine_similarity(target_list, crowd_numbers)
+        distance_record += [[d,choice]]
+      sorted_record = sorted(distance_record, reverse=False)  #ascending
     
   return sorted_record
 
