@@ -92,3 +92,8 @@ def euclidean_distance(vect1:list ,vect2:list) -> float:
   a = np.array(vect1, dtype='int64')
   b = np.array(vect2, dtype='int64')
   return norm(a-b)
+
+from numpy import dot
+from numpy.linalg import norm
+
+cos_sim = dot(a, b)/(norm(a)*norm(b))
