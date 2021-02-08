@@ -26,7 +26,7 @@ def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
   distance_record = []
   n = len(table)
 
-  if differencer=='euclidean'
+  if differencer=='euclidean':
     for i in range(n):
       crowd_row = table.loc[i].to_list()
       crowd_numbers = crowd_row[:-1]
@@ -36,7 +36,7 @@ def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
 
     sorted_record = sorted(distance_record, reverse=False)  #ascending
     
-  if differencer=='reverse_cosine'
+  if differencer=='reverse_cosine':
       for i in range(n):
         crowd_row = table.loc[i].to_list()
         crowd_numbers = crowd_row[:-1]
