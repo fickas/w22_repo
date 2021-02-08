@@ -93,7 +93,22 @@ def euclidean_distance(vect1:list ,vect2:list) -> float:
   b = np.array(vect2, dtype='int64')
   return norm(a-b)
 
-from numpy import dot
-from numpy.linalg import norm
-
-cos_sim = dot(a, b)/(norm(a)*norm(b))
+def cosine_similarity(vect1:list ,vect2:list) -> float:
+  assert isinstance(vect1, list), f'vect1 is not a list but a {type(vect1)}'
+  assert isinstance(vect2, list), f'vect2 is not a list but a {type(vect2)}'
+  assert len(vect1) == len(vect2), f"Mismatching length for vectors: {len(vect1)} and {len(vect2)}"
+  '''
+  sumxx, sumxy, sumyy = 0, 0, 0
+  for i in range(len(vect1)):
+      x = vect1[i]; y = vect2[i]
+      sumxx += x*x
+      sumyy += y*y
+      sumxy += x*y
+      denom = sumxx**.5 * sumyy**.5  #or (sumxx * sumyy)**.5
+  #have to invert to order on smallest
+  return sumxy/denom if denom > 0 else 0.0
+  '''
+  a = np.array(vect1)
+  b = np.array(vect2)
+  cosine = np.dot(a,b)/(norm(a)*norm(b))
+  return cosine
