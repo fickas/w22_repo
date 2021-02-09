@@ -58,6 +58,12 @@ def get_knn_winner(expert_list):
 
 
 def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean'):
+  assert isinstance(training_table, pd.core.frame.DataFrame), f'training_table is not a dataframe but instead a {type(training_table)}'
+  assert isinstance(testing_table, pd.core.frame.DataFrame), f'testing_table is not a dataframe but instead a {type(testing_table)}'
+  assert isinstance(k, int), f'k must be int but is instead a {type(k)}'
+  assert k >= 1 and k <= len(training_table), f'k must be between 1 and {len(training_table)} but is {k}'
+  assert differencer in ['euclidean', 'reverse_cosine'], f"expecting one of {['euclidean', 'reverse_cosine']} for differencer but saw '{differencer}'."
+  
   training_choices = training_table[training_table.columns[-1]].unique().tolist()
   testing_choices = testing_table[testing_table.columns[-1]].unique().tolist()
   choices = list(set(training_choices + testing_choices))
