@@ -19,7 +19,7 @@ def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
   assert isinstance(target_list, list), f'target_list is not a list but a {type(target_list)}'
   assert len(target_list) == (len(table.loc[0].to_list())-1), f"Mismatching length for table and target_list: {len(target_list)} and {len(table.loc[0].to_list())-1}"
   assert all([not isinstance(x,str) for x in target_list]), f'target_list contains one or more string values'
-  assert differencer in ['euclidean', 'reverse_cosine'], f"expecting one of {['euclidean', 'reverse_cosine']} for differencer but saw {differencer}."
+  assert differencer in ['euclidean', 'reverse_cosine'], f"expecting one of {['euclidean', 'reverse_cosine']} for differencer but saw '{differencer}'."
   distance_record = []
   n = len(table)
 
