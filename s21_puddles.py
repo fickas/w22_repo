@@ -57,7 +57,7 @@ def get_knn_winner(expert_list):
   return counts.keys()[j]
 
 
-def knn_accuracy(*, training_table, testing_table, k):
+def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean'):
   training_choices = training_table[training_table.columns[-1]].unique().tolist()
   testing_choices = testing_table[testing_table.columns[-1]].unique().tolist()
   choices = list(set(training_choices + testing_choices))
@@ -68,7 +68,7 @@ def knn_accuracy(*, training_table, testing_table, k):
     test_row = testing_table.loc[i].to_list()
     choice = test_row[-1]
     number_list = test_row[:-1]
-    result = knn(table=training_table, target_list=number_list)[:k]
+    result = knn(table=training_table, target_list=number_listdifferencer=differencer)[:k]
     votes = [c for d,c in result]
     vote_counts = []
     
