@@ -29,7 +29,6 @@ def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
       crowd_numbers = crowd_row[:-1]
       choice = crowd_row[-1]
       d = euclidean_distance(target_list, crowd_numbers)
-      if d != (1.0 - cosine_similarity(target_list, crowd_numbers)): print(i)
       distance_record += [[d,choice]]
 
     sorted_record = sorted(distance_record, reverse=False)  #ascending
