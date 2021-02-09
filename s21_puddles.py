@@ -68,7 +68,7 @@ def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean
     test_row = testing_table.loc[i].to_list()
     choice = test_row[-1]
     number_list = test_row[:-1]
-    result = knn(table=training_table, target_list=number_listdifferencer=differencer)[:k]
+    result = knn(table=training_table, target_list=number_list, differencer=differencer)[:k]
     votes = [c for d,c in result]
     vote_counts = []
     
