@@ -8,6 +8,8 @@ dframe = TypeVar('pd.core.frame.DataFrame')
 narray = TypeVar('numpy.ndarray')
 import math
 import json
+import warnings
+warnings.filterwarnings('ignore')
 
 def hello():
   return "Welcome to s21_puddles library"
@@ -154,3 +156,20 @@ def heat_map(zipped, label_list):
           ax.text(j, i, case_list[i][j], ha='center', va='center', color='white', fontsize=32)
   plt.show()
   return None
+
+###########  week 5
+
+def x_by_binary_y(*, table, x_column, y_column, bins=20):
+  assert len(table[y_column].unique())==2, f'y_column must be binary'
+  col_pos = [table.loc[i, x_column] for i in range(len(table)) if table.loc[i, y_column] == 1]
+  col_neg = [table.loc[i, x_column] for i in range(len(table)) if table.loc[i, y_column] == 0]
+  col_stacked = [col_pos, col_neg]
+  plt.rcParams["figure.figsize"] = (15,8)  #15 by 8 inches
+  bins = min(bins, int(table[x_column].max()))
+  result = plt.hist(col_stacked, bins, stacked=True, label=[1, 0])
+  plt.xlabel(x_column)
+  plt.ylabel('Count')
+  plt.title(f'{x_column} by {y_column}')
+  plt.legend()
+  plt.show()
+ 
