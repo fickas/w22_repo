@@ -208,3 +208,28 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
 
   return word_table.sort_index()
 
+def add_tf_idf(*, word_table):
+  assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(word_table)}'
+  outcomes = word_table.columns.to_list()
+  new_table = word_table.copy(deep=True)
+  for c in outcomes:
+    new_table["tf_"+str(c)] = -1  #add new columns
+
+  column_totals = []
+  for column in outcomes:
+    x = sum(word_table[column].to_list())
+    column_totals += [x]
+
+  index_list = word_table.index.values.tolist()
+  for word in index_list:
+    n = len(outcomes)
+    non_zero_count = sum([word_table.loc[word,c]!=0 for c in outcomes])
+    if not non_zero_count:
+      assert False, f'{word} has all zero columns'
+    idf = math.log10(n/non_zero_count)
+    for i,column in enumerate(outcomes):
+      c = word_table.loc[word,column]
+      tf = c/column_totals[i]
+      new_table.loc[word, "tf_"+str(column)] = tf * idf
+
+  return new_table
