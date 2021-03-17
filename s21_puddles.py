@@ -173,3 +173,38 @@ def x_by_binary_y(*, table, x_column, y_column, bins=20):
   plt.legend()
   plt.show()
  
+###################### Naive Bayes
+
+def build_word_bag(*, sentence_list:list, outcome_list:list):
+  assert isinstance(sentence_list, list)
+  assert isinstance(outcome_list, list)
+  try:
+    type(nlp)==spacy.lang.en.English
+  except:
+    assert False, 'spacy must be loaded and nlp defined'
+
+  outcome_unique = list(set(outcome_list))
+  word_table = pd.DataFrame(columns=['word'] + outcome_unique)
+  word_table = word_table.set_index('word')
+  index_set = set()  #faster lookup than word_table.index.values
+
+  for i,s in enumerate(sentence_list):
+    outcome = outcome_list[i]
+    doc = nlp(s)
+    word_set = set()
+    for token in doc:
+      if not token.is_alpha: continue  #throwing out digits
+      if token.is_stop: continue
+      if token.is_punct: continue  #overkill with is_alpha
+      if token.is_oov: continue
+      real_word = token.text.lower()
+      word_set.add(real_word)  #just keep unique values
+
+    for word in list(word_set):
+      if word not in index_set:
+        word_table.loc[word] = [0]*(len(outcome_unique))
+        index_set.add(word)
+      word_table.loc[word, outcome] += 1
+
+  return word_table.sort_index()
+
