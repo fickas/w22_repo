@@ -11,6 +11,11 @@ import json
 import warnings
 warnings.filterwarnings('ignore')
 
+import spacy, os
+os.system('python -m spacy download en_core_web_md')
+import en_core_web_md
+nlp = en_core_web_md.load()
+
 def hello():
   return "Welcome to s21_puddles library"
 
