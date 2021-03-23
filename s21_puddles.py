@@ -238,3 +238,42 @@ def add_tf_idf(*, word_table):
       new_table.loc[word, "tf_"+str(column)] = tf * idf
 
   return new_table
+
+
+#assumes word_list has been wrangled
+def naive_bayes(word_list:list, word_bag, label_list:list, laplace:float=1.0) -> tuple:
+  assert isinstance(word_list, list), f'word_list not a list but instead a {type(word_list)}'
+  assert all([isinstance(item, str) for item in word_list]), f'word_list must be list of strings but contains {type(word_list[0])}'
+  assert isinstance(word_bag, pd.core.frame.DataFrame), f'word_bag not a dframe but instead a {type(word_bag)}'
+  assert word_bag.index.name == 'word', f'word_bag must have index of "word"'
+
+  category_list = word_bag.columns.tolist()  #possible target values in list form
+  assert all([label in category_list for label in label_list]), f'label_list must contain only values in {category_list}'
+  
+  evidence = list(set(word_list))  #remove duplicates
+  index_list = word_bag.index.tolist()
+
+  counts = []
+  probs = []
+  for category in category_list:
+    ct = label_list.count(category)
+    counts.append(ct)
+    probs.append(ct/len(label_list))
+
+  #now have counts and probs for all classes
+
+  results = []
+  for i, category in enumerate(category_list):
+    prods = [math.log(probs[i])]  #P(author)
+    for ei in word_list:
+      if ei not in index_list:
+        #did not see word in training set
+        the_value =  1/(counts[i] + len(word_bag))
+      else:
+        value = word_bag.loc[ei, category]
+        the_value = ((value+laplace)/(counts[i] + laplace*len(word_bag)))
+      prods.append(math.log(the_value))
+  
+    results.append((category, sum(prods)))
+  the_min = min(results, key=lambda pair: pair[1])[1]  #shift so smallest is 0
+  return [[a,r+abs(the_min)]    for a,r in results]
