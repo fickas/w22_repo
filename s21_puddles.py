@@ -213,7 +213,7 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
 
   return word_table.sort_index()
 
-def ordered_postitives(*, word_table, column):
+def ordered_by_column(*, word_table, column):
   assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(table)}'
   assert column in [0,1], f'column must be 0 or 1 but is instead {column}'
   
