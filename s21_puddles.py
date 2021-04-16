@@ -213,8 +213,10 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
 
   return word_table.sort_index()
 
-def ordered_postitives(*, word_table):
+def ordered_postitives(*, word_table, column):
   assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(table)}'
+  assert column in [0,1], f'column must be 0 or 1 but is instead {column}'
+  
   denom0 = sum(word_table[0].to_list())
   denom1 = sum(word_table[1].to_list())
 
@@ -238,7 +240,7 @@ def ordered_postitives(*, word_table):
     result = tf_idf(word=word)
     values.append([word]+result)
 
-  ordered = sorted(values, key=lambda triple: triple[2], reverse=True)
+  ordered = sorted(values, key=lambda triple: triple[column+1], reverse=True)
   return ordered
 
 def add_tf_idf(*, word_table):
