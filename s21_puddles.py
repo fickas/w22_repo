@@ -19,7 +19,7 @@ nlp = en_core_web_md.load()
 def hello():
   return "Welcome to s21_puddles library"
 
-###Week 4
+###Week 3
 
 def knn(*, table, target_list:list, differencer:str='euclidean') -> list:
   assert isinstance(table, pd.core.frame.DataFrame), f'table is not a dataframe but instead a {type(table)}'
@@ -212,6 +212,34 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
       word_table.loc[word, outcome] += 1
 
   return word_table.sort_index()
+
+def ordered_postitives(*, word_table):
+  assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(table)}'
+  denom0 = sum(word_table[0].to_list())
+  denom1 = sum(word_table[1].to_list())
+
+  def tf_idf(*, word):
+    assert word in word_table.index, f'unrecognized word: {word}. Check spelling and case.'
+    
+    tf_word_winning = word_table.loc[word, 1]/denom1
+    tf_word_losing = word_table.loc[word, 0]/denom0
+
+    df_word = min(1, word_table.loc[word, 1]) + min(1, word_table.loc[word, 0])
+
+    idf_word = math.log(2/df_word)
+
+    tf_idf_word_losing = tf_word_losing * idf_word
+    tf_idf_word_winning = tf_word_winning * idf_word
+
+    return [tf_idf_word_losing, tf_idf_word_winning]
+
+  values = []
+  for word in word_table.index:
+    result = tf_idf(word=word)
+    values.append([word]+result)
+
+  ordered = sorted(values, key=lambda triple: triple[2], reverse=True)
+  return ordered
 
 def add_tf_idf(*, word_table):
   assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(word_table)}'
