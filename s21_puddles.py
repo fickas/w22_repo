@@ -188,14 +188,14 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
   except:
     assert False, 'spacy must be loaded and nlp defined'
 
-  outcome_unique = list(set(outcome_list))
+  outcome_unique = list(set(outcome_list))  #[0,1]
   as_ids = ['C_'+str(x) for x in outcome_unique]
   word_table = pd.DataFrame(columns=['word'] + as_ids)
   word_table = word_table.set_index('word')
   index_set = set()  #faster lookup than word_table.index.values
 
   for i,s in enumerate(sentence_list):
-    outcome = as_ids[i]
+    outcome = 'C_'+str(outcome_list[i])
     doc = nlp(s)
     word_set = set()
     for token in doc:
