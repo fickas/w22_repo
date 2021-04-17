@@ -241,7 +241,7 @@ def ordered_by_column(*, word_table, column):
     result = tf_idf(word=word)
     values.append([word]+result)
 
-  ordered = sorted(values, key=lambda triple: triple[column+1], reverse=True)
+  ordered = sorted(values, key=lambda triple: triple[1] if column=='C_0' else triple[2], reverse=True)
   return ordered
 
 def add_tf_idf(*, word_table):
