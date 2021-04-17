@@ -216,18 +216,18 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
 
 def ordered_by_column(*, word_table, column):
   assert isinstance(word_table, pd.core.frame.DataFrame), f'word_table is not a dataframe but instead a {type(table)}'
-  assert column in [0,1], f'column must be 0 or 1 but is instead {column}'
+  assert column in ['C_0', 'C_1'], f'column must be C_0 or C_1 but is instead {column}'
   
-  denom0 = sum(word_table[0].to_list())
-  denom1 = sum(word_table[1].to_list())
+  denom0 = sum(word_table['C_0'].to_list())
+  denom1 = sum(word_table['C_1'].to_list())
 
   def tf_idf(*, word):
     assert word in word_table.index, f'unrecognized word: {word}. Check spelling and case.'
     
-    tf_word_winning = word_table.loc[word, 1]/denom1
-    tf_word_losing = word_table.loc[word, 0]/denom0
+    tf_word_winning = word_table.loc[word, 'C_1']/denom1
+    tf_word_losing = word_table.loc[word, 'C_0']/denom0
 
-    df_word = min(1, word_table.loc[word, 1]) + min(1, word_table.loc[word, 0])
+    df_word = min(1, word_table.loc[word, 'C_1']) + min(1, word_table.loc[word, 'C_0'])
 
     idf_word = math.log(2/df_word)
 
