@@ -195,7 +195,7 @@ def build_word_bag(*, sentence_list:list, outcome_list:list):
   index_set = set()  #faster lookup than word_table.index.values
 
   for i,s in enumerate(sentence_list):
-    outcome = outcome_list[i]
+    outcome = as_ids[i]
     doc = nlp(s)
     word_set = set()
     for token in doc:
