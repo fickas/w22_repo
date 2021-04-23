@@ -135,8 +135,8 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
     if winner == choice:
       correct += 1
     record += [(winner, choice)]
-
-  heat_map(record, choices)
+  rev_record = [(act,pred) for pred,act in record]
+  heat_map(rev_record, choices)
 
   '''
   fig, ax = plt.subplots()
