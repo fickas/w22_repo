@@ -113,7 +113,7 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
   
   training_choices = training_table[training_table.columns[-1]].unique().tolist()
   testing_choices = testing_table[testing_table.columns[-1]].unique().tolist()
-  choices = list(set(training_choices + testing_choices))
+  choices = [0,1] #list(set(training_choices + testing_choices))
   n = len(testing_table)
   record = []
   correct = 0
@@ -150,7 +150,7 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
   print(f'Precision:\t{precision}')
   print(f'Recall:\t\t{recall}')
   print(f'F1:\t\t{f1}')
-  return None
+  return record
 
 
 def euclidean_distance(vect1:list ,vect2:list) -> float:
