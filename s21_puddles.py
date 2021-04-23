@@ -98,7 +98,8 @@ def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean
       correct += 1
     record += [(winner, choice)]
 
-  heat_map(record, choices)
+  rev_record = [(act,pred) for pred,act in record]
+  heat_map(rev_record, choices)
 
   return correct/n
 
