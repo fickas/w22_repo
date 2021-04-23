@@ -129,12 +129,13 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
       count = votes.count(c)
       vote_counts += [count]
 
-    #vote_counts now [x,y] where x 0 votes and y 1 votes
-    pos_diff = vote_counts[0] - vote_counts[1]
-    winner = 0 if pos_diff >= threshold else 1
+    pos_diff = vote_counts[1] - vote_counts[0]
+    winner = 1 if pos_diff >= threshold else 0
     if winner == choice:
       correct += 1
     record += [(winner, choice)]
+    
+  #add this to  knn_accuracy
   rev_record = [(act,pred) for pred,act in record]
   heat_map(rev_record, choices)
 
