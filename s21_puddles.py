@@ -100,6 +100,45 @@ def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean
 
   return correct/n
 
+#maybe use this instead of knn_accuracy
+#allows you to demonstrate ROC by manipulating threshold
+def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str='euclidean', threshold=1):
+  assert isinstance(training_table, pd.core.frame.DataFrame), f'training_table is not a dataframe but instead a {type(training_table)}'
+  assert isinstance(testing_table, pd.core.frame.DataFrame), f'testing_table is not a dataframe but instead a {type(testing_table)}'
+  assert isinstance(k, int), f'k must be int but is instead a {type(k)}'
+  assert k >= 1 and k <= len(training_table), f'k must be between 1 and {len(training_table)} but is {k}'
+  assert differencer in ['euclidean', 'reverse_cosine'], f"expecting one of {['euclidean', 'reverse_cosine']} for differencer but saw '{differencer}'."
+  
+  training_choices = training_table[training_table.columns[-1]].unique().tolist()
+  testing_choices = testing_table[testing_table.columns[-1]].unique().tolist()
+  choices = list(set(training_choices + testing_choices))
+  n = len(testing_table)
+  record = []
+  correct = 0
+  for i in range(n):
+    test_row = testing_table.loc[i].to_list()
+    choice = test_row[-1]
+    number_list = test_row[:-1]
+    result = knn(table=training_table, target_list=number_list, differencer=differencer)[:k]
+    votes = [c for d,c in result]
+    vote_counts = []
+    
+    for c in choices:
+      count = votes.count(c)
+      vote_counts += [count]
+
+    #vote_counts now [x,y] where x 0 votes and y 1 votes
+    pos_diff = vote_counts[0] - vote_counts[1]
+    winner = 0 if pos_diff >= threshold else 1
+    if winner == choice:
+      correct += 1
+    record += [(winner, choice)]
+
+  heat_map(record, choices)
+
+  return correct/n
+
+
 def euclidean_distance(vect1:list ,vect2:list) -> float:
   assert isinstance(vect1, list), f'vect1 is not a list but a {type(vect1)}'
   assert isinstance(vect2, list), f'vect2 is not a list but a {type(vect2)}'
