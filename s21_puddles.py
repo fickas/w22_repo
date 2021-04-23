@@ -144,10 +144,10 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
   '''
   accuracy = correct/n
   precision = sklearn.metrics.precision_score([c for w,c in record], [w for w,c in record])
-  recall = sklearn.metrics.precision_score([c for w,c in record], [w for w,c in record])
+  recall = sklearn.metrics.recall_score([c for w,c in record], [w for w,c in record])
   print(f'Accuracy:\t{accuracy}')
   print(f'Precision:\t{precision}')
-  print(f'Recall:\t{recall}')
+  print(f'Recall:\t\t{recall}')
   return None
 
 
