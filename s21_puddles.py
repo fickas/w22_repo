@@ -109,6 +109,8 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
   assert k >= 1 and k <= len(training_table), f'k must be between 1 and {len(training_table)} but is {k}'
   assert differencer in ['euclidean', 'reverse_cosine'], f"expecting one of {['euclidean', 'reverse_cosine']} for differencer but saw '{differencer}'."
   
+  from scikitplot.metrics import plot_precision_recall
+  
   training_choices = training_table[training_table.columns[-1]].unique().tolist()
   testing_choices = testing_table[testing_table.columns[-1]].unique().tolist()
   choices = list(set(training_choices + testing_choices))
@@ -135,6 +137,9 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
     record += [(winner, choice)]
 
   heat_map(record, choices)
+
+  fig, ax = plt.subplots()
+  plot_precision_recall([c for w,c in record], [w for w,c in record], ax=ax)
 
   return correct/n
 
