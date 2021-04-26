@@ -130,8 +130,9 @@ def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str=
       count = votes.count(c)
       vote_counts += [count]
 
-    pos_diff = vote_counts[1] - vote_counts[0]
-    winner = 1 if pos_diff >= threshold else 0
+    #pos_diff = vote_counts[1] - vote_counts[0]
+    #winner = 1 if pos_diff >= threshold else 0
+    winner = 1 if vote_counts[1] >= threshold else 0
     if winner == choice:
       correct += 1
     record += [(winner, choice)]
