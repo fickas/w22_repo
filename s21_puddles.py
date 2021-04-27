@@ -200,7 +200,7 @@ def heat_map(zipped, label_list):
     case_list.append(inner_list)
 
 
-  fig, ax = plt.subplots(figsize=(10, 10))
+  fig, ax = plt.subplots(figsize=(5, 5))
   ax.imshow(case_list)
   ax.grid(False)
   title = ''
