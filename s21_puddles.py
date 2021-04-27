@@ -105,7 +105,7 @@ def knn_accuracy(*, training_table, testing_table, k, differencer:str='euclidean
 
 #maybe use this instead of knn_accuracy
 #allows you to demonstrate ROC by manipulating threshold
-def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str='euclidean', threshold=1):
+def knn_accuracy_threshold(*, training_table, testing_table, k, differencer:str='euclidean', threshold):
   assert isinstance(training_table, pd.core.frame.DataFrame), f'training_table is not a dataframe but instead a {type(training_table)}'
   assert isinstance(testing_table, pd.core.frame.DataFrame), f'testing_table is not a dataframe but instead a {type(testing_table)}'
   assert isinstance(k, int), f'k must be int but is instead a {type(k)}'
