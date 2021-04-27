@@ -207,8 +207,8 @@ def heat_map(zipped, label_list):
   for i,c in enumerate(label_list):
     title += f'{i}={c} '
   ax.set_title(title)
-  ax.set_xlabel('Predicted outputs', fontsize=32, color='black')
-  ax.set_ylabel('Actual outputs', fontsize=32, color='black')
+  ax.set_xlabel('Predicted outputs', fontsize=16, color='black')
+  ax.set_ylabel('Actual outputs', fontsize=16, color='black')
   ax.xaxis.set(ticks=range(len(label_list)))
   ax.yaxis.set(ticks=range(len(label_list)))
   
