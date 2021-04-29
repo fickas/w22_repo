@@ -236,6 +236,12 @@ def x_by_binary_y(*, table, x_column, y_column, bins=20):
  
 ###################### Naive Bayes
 
+def wrangle_text(*, essay):
+  assert isinstance(essay, str), f'essay must be string but is {type(essay)}'
+  doc = nlp(essay)
+  word_list = [w.text.lower() for w in doc if not w.is_stop and not w.is_oov and w.is_alpha]
+  return word_list
+
 def build_word_bag(*, sentence_list:list, outcome_list:list):
   assert isinstance(sentence_list, list)
   assert isinstance(outcome_list, list)
