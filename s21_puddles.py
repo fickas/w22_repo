@@ -332,6 +332,43 @@ def add_tf_idf(*, word_table):
 
   return new_table
 
+#assumes word_list has been trimmed
+def two_class_naive_bayes(*, word_list:list, word_bag, class0_count:int,
+                          class1_count:int, laplace:float=1.0) -> list:
+  assert isinstance(word_list, list), f'word_list not a list but instead a {type(word_list)}'
+  assert all([isinstance(item, str) for item in word_list]), f'word_list must be list of strings but contains {type(word_list[0])}'
+  assert isinstance(word_bag, pd.core.frame.DataFrame), f'word_bag not a dframe but instead a {type(word_bag)}'
+  assert word_bag.index.name == 'word', f'word_bag must have index of "word"'
+  assert 'C_0' in word_bag.columns.values, f'word_bag must have column C_0'
+  assert 'C_1' in word_bag.columns.values, f'word_bag must have column C_1'
+
+  evidence = list(set(word_list))  #remove duplicates
+  index_list = word_bag.index.tolist()  #words
+
+  total_samples = (class0_count+class1_count)
+  class0_prob = class0_count/total_samples
+  class1_prob = class1_count/total_samples
+
+  #now have counts and probs for all classes
+
+  results = []
+  for c in ['C_0', 'C_1']:
+    class_prob = class0_prob if c == 'C_0' else class1_prob
+    prods = [math.log(class_prob)]  #P(O) in numerator to start with
+    for ei in word_list:
+      counts = class0_count if c == 'C_0' else class1_count
+      if ei not in index_list:
+        #did not see word in training set
+        the_value =  laplace/(counts + laplace*len(word_bag)) 
+      else:
+        value = word_bag.loc[ei, c]
+        the_value = ((value+laplace)/(counts + laplace*len(word_bag)))
+      prods.append(math.log(the_value))
+  
+    results.append((c, sum(prods)))
+  the_min = min(results, key=lambda pair: pair[1])[1]  #shift so smallest is 0
+  return [[a,r+abs(the_min)]    for a,r in results]
+
 
 #assumes word_list has been wrangled
 def naive_bayes(word_list:list, word_bag, label_list:list, laplace:float=1.0) -> tuple:
