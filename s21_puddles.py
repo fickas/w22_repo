@@ -458,10 +458,13 @@ def ann_build_model(n:int, layer_list: list, seed=1234, metrics='binary_accuracy
   tf.random.set_seed(seed)
 
   model = Sequential()  #we will always use this in our class. It means left-to-right as we have diagrammed.
-  model.add(Dense(units=layer_list[0], activation='sigmoid', input_dim=n))  #first hidden layer needs number of inputs
-  for u in layer_list[1:]:
-    model.add(Dense(units=u, activation='sigmoid'))
-
+  model.add(Dense(units=layer_list[0], activation='relu', input_dim=n))  #first hidden layer needs number of inputs
+  for u in layer_list[1:-1]:
+    model.add(Dense(units=u, activation='relu'))
+    
+  #now output layer
+  u = layer_list[-1:][0]
+  model.add(Dense(units=u, activation='sigmoid'))
   loss_choice = 'binary_crossentropy'
   optimizer_choice = 'sgd'
   model.compile(loss=loss_choice,
