@@ -70,7 +70,7 @@ def knn_percentage(*, table, target_list:list, k, differencer:str='euclidean') -
       d = euclidean_distance(target_list, crowd_numbers)
       distance_record += [[d,choice]]
 
-  sorted_record = sorted(distance_record, reverse=False)  #ascending
+    sorted_record = sorted(distance_record, reverse=False)  #ascending
     
   if differencer=='reverse_cosine':
       for i in range(n):
@@ -80,11 +80,10 @@ def knn_percentage(*, table, target_list:list, k, differencer:str='euclidean') -
         d = 1.0 - cosine_similarity(target_list, crowd_numbers)
         distance_record += [[d,choice]]
       sorted_record = sorted(distance_record, reverse=False)  #ascending
-      
-  top_k = sorted_record[:k]
-  votes = [v for d,v in top_k]
- 
-  return sum(votes)/k
+    
+  votes = [v for d,v in sorted_record[:k]]
+  p = sum(votes)/k
+  return p, votes
 
 
 def get_knn_winner(expert_list):
