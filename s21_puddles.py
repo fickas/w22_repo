@@ -579,7 +579,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 		Pandas DataFrame of series framed for supervised learning.
 	"""
 	n_vars = 1 if type(data) is list else data.shape[1]
-	df = DataFrame(data)
+	df = pd.DataFrame(data)
 	cols, names = list(), list()
 	# input sequence (t-n, ... t-1)
 	for i in range(n_in, 0, -1):
