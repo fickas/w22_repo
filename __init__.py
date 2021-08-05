@@ -1,1 +1,1 @@
-from s21_puddles.s21_puddles import *
+from w22_repo.w22_puddles import *
