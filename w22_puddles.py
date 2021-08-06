@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 import sklearn.metrics
 
 def hello():
-  return "Welcome to w22_puddles library"
+  return "Welcome to w22_puddles library"  #returns a string
 
 
 def heat_map(zipped, label_list):
